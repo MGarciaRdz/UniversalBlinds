@@ -12,6 +12,12 @@ class ProductosController extends Controller
         return view('Agregar_producto');
     }
 
+    public function index()
+    {
+        $productos = Productos::all();
+        return view('index', compact('productos'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -29,4 +35,6 @@ class ProductosController extends Controller
 
         return redirect()->route('productos.create')->with('success', 'Producto agregado exitosamente.');
     }
+
+
 }
