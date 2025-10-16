@@ -16,19 +16,34 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
+        // Validar los datos de entrada
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required'
         ]);
 
+        // Buscar el usuario por email
         $usuario = Usuario::where('email', $request->email)->first();
-
-        if ($usuario && Hash::check($request->password, $usuario->password)) {
-            // Aquí puedes guardar datos en sesión si lo necesitas
-            session(['usuario_id' => $usuario->id]);
-            return redirect()->route('index')->with('success', 'Inicio de sesión exitoso')->with('info', 'Bienvenido ' . $usuario->name);
-        } else {
+        
+        // Verificar si el usuario existe y la contraseña es correcta
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return back()->withErrors(['email' => 'Credenciales incorrectas'])->withInput();
         }
+
+
+        //Autenticar el tipo de usuario 
+        Auth::login($usuario);
+        $request->session()->regenerate();
+        
+        //identificar el tipo de rol del usuario
+        $rol = strtolower($usuario->rol ?? $usuario->role ?? 'cliente');
+
+        // Redirigir según el rol del usuario 
+        if ($rol === 'admin' || $rol === 'admin') {
+            return redirect()->route('admin.index');
+        } else if ($rol === 'cliente') {
+            return redirect()->route('index');
+        } 
+
     }
 }
