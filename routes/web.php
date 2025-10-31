@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Middleware\Registro_y_Login;
 use App\Http\Middleware\roleMiddleware;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {return view('welcome');});
 
@@ -24,13 +25,19 @@ Route::middleware([Registro_y_Login::class])->group(function () {
     Route::middleware([roleMiddleware::class])->group(function () {
                 
         //ruta para el administrador
-        Route::get('/admin', [App\Http\Controllers\Administrador::class, 'index'])->name('admin.index');
+        Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
 
         //cargar vista crear producto
         Route::get('/productos/create', [ProductosController::class, 'create'])->name('productos.create');
 
         //almacenar producto
         Route::post('/productos', [App\Http\Controllers\ProductosController::class, 'store'])->name('productos.store');
+
+        //Read producto
+        Route::get('/admin/{id}', [App\Http\Controllers\AdminController::class, 'index'])->name('productos.show');
+
+        //Delete producto
+        Route::delete('/productos/{id}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('productos.destroy');
     });
 
 });
