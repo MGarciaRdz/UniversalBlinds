@@ -49,7 +49,7 @@
     </style>
 </head>
 <body>
-    <x-navbar :inicio="route('index')" />
+    <x-navbar-administrador />
 
     <div class="d-flex justify-content-center align-items-center min-vh-100">
         <div class="form-card bg-white p-5 w-100" style="max-width: 480px;">

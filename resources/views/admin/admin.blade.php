@@ -7,6 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    <x-navbar-administrador />
     <h1>Panel de Administración</h1>
     <p>Bienvenido al panel de administración.</p>
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Usuario; // Asegúrate de tener este modelo
+use App\Models\Usuario; 
 
 class LoginController extends Controller
 {
@@ -45,5 +45,14 @@ class LoginController extends Controller
             return redirect()->route('index');
         } 
 
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.create')->with('success', 'Sesión cerrada correctamente.');
     }
 }

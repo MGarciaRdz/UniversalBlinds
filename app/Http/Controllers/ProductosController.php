@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Productos;
 
 class ProductosController extends Controller
 {
+
     public function create()
     {
         return view('Agregar_producto');

@@ -9,10 +9,10 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Inicio</a>
+          <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"></a>
+          <a class="nav-link" href="{{ route('productos.create') }}">agregar productos</a>
         </li>
         <li class="nav-item">
           <!-- <a class="nav-link" href="#">Cerrar sesión</a> -->
