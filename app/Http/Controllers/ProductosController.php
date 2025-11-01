@@ -38,6 +38,45 @@ class ProductosController extends Controller
         return redirect()->route('productos.create')->with('success', 'Producto agregado exitosamente.');
     }
 
+        public function edit($id)
+    {
+        $producto = Productos::findOrFail($id);
+        return view('admin.EditarProducto', compact('producto'));
+    }
 
+    public function update(Request $request, $id)
+    {
+        $producto = Productos::findOrFail($id);
+
+        $request->validate([
+            'nombrenuevo' => 'required|string|max:255',
+            'descripcionnuevo' => 'required|string',
+            'precionuevo' => 'required|numeric',
+            'imagennuevo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        $producto->nombre = $request->input('nombrenuevo');
+        $producto->descripcion = $request->input('descripcionnuevo');
+        $producto->precio = $request->input('precionuevo');
+
+        if ($request->hasFile('imagennuevo')) {
+            // Eliminar la imagen antigua si existe
+            if ($producto->imagen) {
+                $oldImagePath = public_path('images/' . $producto->imagen);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+         
+            // Guardar nueva imagen en la misma carpeta que store()
+            $ruta = $request->file('imagennuevo')->store('imagen', 'public');
+            $producto->imagen = $ruta;
+        }
+
+        $producto->save();
+
+        return redirect()->route('admin.index');
+    }
 
 }

@@ -25,19 +25,25 @@ Route::middleware([Registro_y_Login::class])->group(function () {
     Route::middleware([roleMiddleware::class])->group(function () {
                 
         //ruta para el administrador
-        Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
         //cargar vista crear producto
         Route::get('/productos/create', [ProductosController::class, 'create'])->name('productos.create');
 
+        //cargar vista editar producto
+        Route::get('/productos/{id}/edit', [ProductosController::class, 'edit'])->name('productos.edit');
+
         //almacenar producto
-        Route::post('/productos', [App\Http\Controllers\ProductosController::class, 'store'])->name('productos.store');
+        Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
 
         //Read producto
-        Route::get('/admin/{id}', [App\Http\Controllers\AdminController::class, 'index'])->name('productos.show');
+        Route::get('/admin/{id}', [AdminController::class, 'index'])->name('productos.show');
 
         //Delete producto
-        Route::delete('/productos/{id}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('productos.destroy');
+        Route::delete('/productos/{id}', [AdminController::class, 'destroy'])->name('productos.destroy');
+
+        //Actualizar producto
+        Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
     });
 
 });

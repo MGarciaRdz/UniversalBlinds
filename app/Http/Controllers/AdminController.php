@@ -14,6 +14,13 @@ class AdminController extends Controller
         return view('admin.admin', compact('productos'));
     }
 
+    public function show($id)
+    {
+        $producto = Productos::findOrFail($id);
+        return view('admin.admin', compact('producto'));
+    }
+
+
     public function destroy($id)
     {
         $producto = Productos::findOrFail($id);
@@ -31,4 +38,6 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Producto eliminado correctamente.');
     }
 
+  
+   
 }

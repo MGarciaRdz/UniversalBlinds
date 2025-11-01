@@ -142,7 +142,7 @@
                                     <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-sm btn-outline-primary me-1">Ver</a>
 
                                     <!-- Editar: crea la ruta y vista si no existen -->
-                                    <a href="" class="btn btn-sm btn-outline-secondary me-1">Editar</a>
+                                    <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-sm btn-outline-secondary me-1">Editar</a>
 
                                     <!-- Eliminar: crea la ruta productos.destroy en web.php y el método en el controlador -->
                                     <form action="{{ route('productos.destroy', $producto->id) ?? '#' }}" method="POST" class="d-inline" onsubmit="return confirm('¿Eliminar producto?');">
