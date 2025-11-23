@@ -60,7 +60,6 @@ class ProductosController extends Controller
         $producto->precio = $request->input('precionuevo');
 
         if ($request->hasFile('imagennuevo')) {
-            // Eliminar la imagen antigua si existe
             if ($producto->imagen) {
                 $oldImagePath = public_path('images/' . $producto->imagen);
                 if (file_exists($oldImagePath)) {
@@ -69,7 +68,6 @@ class ProductosController extends Controller
             }
 
          
-            // Guardar nueva imagen en la misma carpeta que store()
             $ruta = $request->file('imagennuevo')->store('imagen', 'public');
             $producto->imagen = $ruta;
         }

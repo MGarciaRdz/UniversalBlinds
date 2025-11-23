@@ -4,25 +4,31 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 
 class roleMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * Uso: ->middleware('role:administrador') o ->middleware('role:cliente')
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, $roles = null)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login.create') ->with('error', 'Por favor, inicia sesión para acceder a esta página.');
+        $user = auth()->user();
+
+        if (! $user) {
+            return redirect()->route('login.create');
         }
 
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Acceso denegado.');
+        if ($roles) {
+            $allowed = array_map('trim', explode(',', $roles));
+            $userRole = strtolower($user->rol ?? $user->role ?? '');
+
+            $allowedLower = array_map('strtolower', $allowed);
+            if (! in_array($userRole, $allowedLower, true)) {
+                abort(403, 'Acceso denegado.');
+            }
         }
+
         return $next($request);
     }
 }

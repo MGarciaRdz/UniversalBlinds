@@ -6,6 +6,7 @@ use App\Http\Controllers\RegistroController;
 use App\Http\Middleware\Registro_y_Login;
 use App\Http\Middleware\roleMiddleware;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductoVisualizado;
 
 Route::get('/', function () {return view('welcome');});
 
@@ -13,16 +14,25 @@ Route::get('/', function () {return view('welcome');});
 
 Route::middleware([Registro_y_Login::class])->group(function () {
 
-    //vista index con productos
-    Route::get('/index', [App\Http\Controllers\ProductosController::class, 'index'])->name('index');
+    // Todas las rutas que esten dentro de este grupo solo seran accesibles para usuarios autenticados
+    Route::middleware(['role:cliente'])->group(function () {
+  
+        //vista index con productos
+        Route::get('/index', [App\Http\Controllers\ProductosController::class, 'index'])->name('index');
 
+        //vista producto visualizado
+        Route::get('/producto/{id}', [ProductoVisualizado::class, 'show'])->name('producto.visualizado'); 
+
+
+    });
         
     //cerrar sesion
     Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 
+    
 
     // Solo los admins pueden acceder
-    Route::middleware([roleMiddleware::class])->group(function () {
+    Route::middleware(['role:admin'])->group(function () {
                 
         //ruta para el administrador
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -44,6 +54,9 @@ Route::middleware([Registro_y_Login::class])->group(function () {
 
         //Actualizar producto
         Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
+
+        //Cargar vista usuarios
+        Route::get('/usuarios', [App\Http\Controllers\UsuariosController::class, 'index'])->name('usuarios.index');
     });
 
 });

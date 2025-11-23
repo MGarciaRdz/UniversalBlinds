@@ -25,7 +25,6 @@ class AdminController extends Controller
     {
         $producto = Productos::findOrFail($id);
 
-        // Eliminar la imagen asociada si existe
         if ($producto->imagen) {
             $imagePath = public_path('images/' . $producto->imagen);
             if (file_exists($imagePath)) {

@@ -35,6 +35,13 @@
             background-color: #ffcd39;
             color: #0a58ca;
         }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(13, 110, 253, 0.2);
+            transform: translateY(-5px);
+            background-color: #dededeff;
+            transition: all 0.3s ease;
+        }
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -52,7 +59,7 @@
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
                             <p class="card-text text-muted">{{ $producto->descripcion }}</p>
                             <p class="card-text fw-bold text-success">${{ $producto->precio }}</p>
-                            <a href="#" class="btn btn-yellow mt-2">Ver más</a>
+                            <a href="{{ route('producto.visualizado', $producto->id) }}" class="btn btn-yellow mt-2">Ver más</a>
                         </div>
                     </div>
                 </div>
