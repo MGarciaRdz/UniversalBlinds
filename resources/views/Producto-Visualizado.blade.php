@@ -139,8 +139,19 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button class="btn btn-gold">Agregar al carrito</button>
-                        <a href="" class="btn btn-outline-primary">Comprar</a>
+                    <form action="{{ route('carrito.agregar') }}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="producto_id" value="{{ $Producto->id }}">
+                        <input type="hidden" name="nombre" value="{{ $Producto->nombre }}">
+                        <input type="hidden" name="precio" value="{{ $Producto->precio }}">
+                        <input type="hidden" name="cantidad" value="1">
+
+                        <button type="submit" class="btn btn-gold">Agregar al carrito</button>
+                    </form>
+
+                    <a href="" class="btn btn-outline-primary">Comprar</a>
+                </div>
                     </div>
                 </div>
             </div>
@@ -152,5 +163,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

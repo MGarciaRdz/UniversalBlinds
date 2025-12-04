@@ -7,6 +7,7 @@ use App\Http\Middleware\Registro_y_Login;
 use App\Http\Middleware\roleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductoVisualizado;
+use App\Http\Controllers\CarritoController;
 
 Route::get('/', function () {return view('welcome');});
 
@@ -21,7 +22,14 @@ Route::middleware([Registro_y_Login::class])->group(function () {
         Route::get('/index', [App\Http\Controllers\ProductosController::class, 'index'])->name('index');
 
         //vista producto visualizado
-        Route::get('/producto/{id}', [ProductoVisualizado::class, 'show'])->name('producto.visualizado'); 
+        Route::get('/producto/{id}', [ProductoVisualizado::class, 'show'])->name('producto.visualizado');
+        
+        
+        //agregar producto al carrito
+        Route::post('/carrito/agregar', [CarritoController::class, 'agregarProducto'])->name('carrito.agregar');
+
+        //vista carrito de compras
+        Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
 
 
     });
